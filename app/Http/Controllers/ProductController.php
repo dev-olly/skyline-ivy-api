@@ -41,7 +41,7 @@ class ProductController extends Controller
         $product->rating = $request->rating;
         $product->gender = $request->gender;
         $product->img = $request->img;
-        $product ->slug = implode("-", explode(" ", $request->name));
+        $product ->slug = implode("-", explode(" ", strtolower($request->name)));
         $product->save();
         return response()->json($product, 201);
     }
