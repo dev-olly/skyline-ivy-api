@@ -23,7 +23,6 @@ Route::get('/hello', function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('products/search/{name}', [ProductController::class, 'search']);
 
@@ -34,6 +33,7 @@ Route::get('products/search/{name}', [ProductController::class, 'search']);
 
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}/edit', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
