@@ -1,6 +1,7 @@
 <?php
-use App\Models\User;
+
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,33 +17,26 @@ use Illuminate\Support\Facades\Route;
 */
 // function split
 
-Route::get('/hello', function (Request $request) {
+Route::get('/hello', function () {
     return 'Hello World';
 });
 
-Route::post('/register', function(Request $request) {
-    $user = new User;
-    $user->name = $request->name;
-    $user->email = $request->email;
-    $user->password = $request->password;
-    $isSaved = $user->save();
-    $res = [
-        'success' => $isSaved ,
-        'message' => $isSaved ? 'User registered successfully' : 'User registration failed',
-    ];
-    return response()->json($res, 201);
-});
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('products/search/{name}', [ProductController::class, 'search']);
 
-Route::get('/users', function(Request $request) {
-    return User::all();
-});
 
-Route::resource('products', ProductController::class);
+
+// Route::resource('products', ProductController::class);
 
 
 // protected routes
-Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('products/search/{name}', [ProductController::class, 'search']);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::put('/products/{id}/edit', [ProductController::class, 'update']);
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 });
 // Route::get('/products', [ProductController::class, 'index']);
 // Route::post('/products', [ProductController::class, 'store']);

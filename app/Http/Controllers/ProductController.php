@@ -32,7 +32,7 @@ class ProductController extends Controller
             'rating' => 'required',
             'slug' => 'required',
             'img' => 'required',
-        ]); 
+        ]);
 
         $product = new Product;
         $product->name = $request->name;
@@ -41,7 +41,7 @@ class ProductController extends Controller
         $product->rating = $request->rating;
         $product->gender = $request->gender;
         $product->img = $request->img;
-        $product ->slug = implode("-", explode(" ", strtolower($request->name)));
+        $product->slug = implode("-", explode(" ", strtolower($request->name)));
         $product->save();
         return response()->json($product, 201);
     }
@@ -78,7 +78,7 @@ class ProductController extends Controller
         $product->rating = $request->rating;
         $product->gender = $request->gender;
         $product->img = $request->img;
-        $product ->slug = implode("-", explode(" ", $request->name));
+        $product->slug = implode("-", explode(" ", $request->name));
         $product->save();
         return response()->json($product, 201);
     }
@@ -109,5 +109,17 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['success' => false, 'message' => 'Product not found'], 404);
+        }
+        $deleteProduct = $product->delete();
+
+        $response = [
+            "success" => $deleteProduct,
+            "message" => $deleteProduct ? "Product deleted successfully" : "Error deleting product"
+        ];
+
+        return response()->json($response, 201);
     }
 }
