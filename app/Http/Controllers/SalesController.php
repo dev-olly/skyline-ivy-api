@@ -96,11 +96,4 @@ class SalesController extends Controller
     {
         //
     }
-
-    public function fetchUserOrders(Request $request)
-    {
-        $orders = $request->user()->sales;
-
-        return response()->json($orders, 201);
-    }
 }
