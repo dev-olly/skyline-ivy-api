@@ -84,6 +84,23 @@ class ProductController extends Controller
     }
 
     /**
+     * search for resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $name
+     * @return \Illuminate\Http\Response
+     */
+    public function search($name)
+    {
+        //
+        $product = Product::where('name', 'like', '%' . $name . '%')->get();
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+        return response()->json($product, 201);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
