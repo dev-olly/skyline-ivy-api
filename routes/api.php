@@ -1,6 +1,6 @@
 <?php
 use App\Models\User;
-use App\Models\Product;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,22 +37,10 @@ Route::get('/users', function(Request $request) {
     return User::all();
 });
 
-Route::get('/products', function(Request $request) {
-    return Product::all();
-});
+Route::resource('products', ProductController::class);
 
-Route::post('/products', function(Request $request) {
-    $product = new Product;
-    $product->name = $request->name;
-    $product->price = $request->price;
-    $product->description = $request->description;
-    $product->rating = $request->rating;
-    $product->gender = $request->gender;
-    $product->img = $request->img;
-    $product ->slug = implode("-", explode(" ", $request->name));
-    $product->save();
-    return response()->json($product, 201);
-});
+// Route::get('/products', [ProductController::class, 'index']);
+// Route::post('/products', [ProductController::class, 'store']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
