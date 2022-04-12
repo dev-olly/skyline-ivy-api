@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Sales extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'quantity',
+        'user_id',
+        'product_id',
+        'status',
+    ];
 }

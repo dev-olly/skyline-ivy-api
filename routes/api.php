@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/products', [ProductController::class, 'store']);
     Route::put('/products/{id}/edit', [ProductController::class, 'update']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    Route::post('/orders', [SalesController::class, 'store']);
+    Route::get('/orders', [SalesController::class, 'index']);
+
 });
 // Route::get('/products', [ProductController::class, 'index']);
 // Route::post('/products', [ProductController::class, 'store']);
