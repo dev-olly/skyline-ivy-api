@@ -64,6 +64,14 @@ class SalesController extends Controller
     public function show($id)
     {
         //
+        $sales = Sales::find($id)->product;
+
+        $response = [
+            "sale" => $sales,
+            // "product" => $product,
+        ];
+
+        return response()->json($response, 201);
     }
 
     /**
