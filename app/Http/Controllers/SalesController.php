@@ -84,6 +84,22 @@ class SalesController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $quantity = $request->quantity;
+        $status = $request->status;
+
+        $sales = Sales::find($id);
+
+        if ($quantity) {
+            $sales->quantity = $quantity;
+        }
+        if ($status) {
+            $sales->status = $status;
+        }
+
+        $sales->save();
+
+        return response()->json($sales, 201);
     }
 
     /**
